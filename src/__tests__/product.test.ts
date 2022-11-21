@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import {PayLoadPages, PayLoadCharacter} from "../schema/example.schema";
+import {PayLoadPages, PayLoadCharacter} from "../schema/user.schema";
 import createServer from "../utils/server";
 
 
