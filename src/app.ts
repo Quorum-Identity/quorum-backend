@@ -18,12 +18,14 @@ mongoose.connect('mongodb+srv://nickname:uF07PaNHQh79tpO5@cluster0.bpdzobz.mongo
 
 import { body } from 'express-validator';
 import { authorization } from "./middleware/user.midd";
+import { globalAuthorization } from "./middleware/auth.midd";
 
 
-app.post("/user/register", 
+
+app.post("/user/register", globalAuthorization,
   body('name').isLength({ min: 3 }),
   body('lastname').isLength({ min: 3 }), 
-  body('password').isLength({ min: 5 }), 
+  body('password').isLength({ min: 5 }),
   body('email').isEmail(), 
   body('date_birth').isLength({ min: 5 }),
   body('phone').isLength({ min: 5}),  
@@ -32,12 +34,12 @@ app.post("/user/register",
   body('province').isNumeric(), 
 registerUser);
 
-app.post("/user/login", 
+app.post("/user/login", globalAuthorization,
   body('password').isLength({ min: 5 }), 
   body('email').isEmail(), 
 loginUser);
 
-app.get("/user/data", authorization, getUser);
+app.get("/user/data", globalAuthorization, authorization, getUser);
 
 
 app.listen(port, async () => {
