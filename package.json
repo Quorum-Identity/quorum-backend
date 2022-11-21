@@ -17,6 +17,7 @@
     "dayjs": "^1.10.7",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
+    "express-validator": "^6.14.2",
     "lodash": "^4.17.21",
     "node-fetch": "^3.2.10",
     "node-fetch-commonjs": "^3.2.4",
