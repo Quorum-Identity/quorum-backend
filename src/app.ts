@@ -1,5 +1,5 @@
 import createServer from "./utils/server";
-import {loginUser, registerUser} from "./controller/user.controller";
+import {loginUser, registerUser, getUser} from "./controller/user.controller";
 import mongoose from "mongoose"
 
 const port = 3001;
@@ -17,6 +17,7 @@ mongoose.connect('mongodb+srv://nickname:uF07PaNHQh79tpO5@cluster0.bpdzobz.mongo
 
 
 import { body } from 'express-validator';
+import { authorization } from "./middleware/user.midd";
 
 
 app.post("/user/register", 
@@ -35,6 +36,8 @@ app.post("/user/login",
   body('password').isLength({ min: 5 }), 
   body('email').isEmail(), 
 loginUser);
+
+app.get("/user/data", authorization, getUser);
 
 
 app.listen(port, async () => {
