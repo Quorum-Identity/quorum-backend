@@ -1,5 +1,5 @@
 import createServer from "./utils/server";
-import {registerUser} from "./controller/user.controller";
+import {loginUser, registerUser} from "./controller/user.controller";
 import mongoose from "mongoose"
 
 const port = 3001;
@@ -18,6 +18,7 @@ mongoose.connect('mongodb+srv://nickname:uF07PaNHQh79tpO5@cluster0.bpdzobz.mongo
 
 import { body } from 'express-validator';
 
+
 app.post("/user/register", 
   body('name').isLength({ min: 3 }),
   body('lastname').isLength({ min: 3 }), 
@@ -28,8 +29,13 @@ app.post("/user/register",
   body('type').isNumeric(), 
   body('country').isNumeric(), 
   body('province').isNumeric(), 
-
 registerUser);
+
+app.post("/user/login", 
+  body('password').isLength({ min: 5 }), 
+  body('email').isEmail(), 
+loginUser);
+
 
 app.listen(port, async () => {
   console.log(`App is running at http://localhost:${port}`);
