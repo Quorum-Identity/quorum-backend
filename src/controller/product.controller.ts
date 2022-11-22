@@ -1,6 +1,7 @@
 import express from "express";
 import { body } from 'express-validator';
-import { addProduct } from "../services/product.service";
+import { addProduct, getAllProducts, getProduct, getProductById } from "../services/product.service";
+import { authorization } from "../middleware/user.midd";
 
 var router = express.Router();
 
@@ -13,5 +14,12 @@ router.post("/add",
   body('type').isNumeric(),
 addProduct);
 
+router.get("/data", authorization, getProduct);
+
+router.post("/getbyid",
+  body('id').isLength({ min: 5 }),
+getProductById);
+
+router.get("/getall", getAllProducts);
 
 export default router;
