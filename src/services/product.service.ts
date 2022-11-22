@@ -36,4 +36,48 @@ async function addProduct (req: Request, res: Response) {
       return res.status(505).json({message: "Invalid body or error"});
     }
 }
-export { addProduct }
+
+async function getProduct (req: Request, res: Response) {
+    try{
+      const token = req.cookies.access_token;
+      const { _id } = jwt.verify(token, "SECRET_EXAMPLE_KEY") as JwtPayload;
+      const product = await ProductSchema.find({ by_id: _id});
+      if(product){
+        return res.status(202).json({message: "Product data", products: product});
+      } else return res.status(404).json({message: "Invalid product"});
+    }
+    catch (error) {
+      return res.status(505).json({message: "Invalid body or error"});
+    }
+}
+
+async function getProductById (req: Request, res: Response) {
+    try{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const body = req.body as Pick<ProductModel, "id">
+    const product = await ProductSchema.findOne({ _id: body.id});
+      if(product){
+        return res.status(202).json({message: "Product data", product: product});
+      } else return res.status(404).json({message: "Not found products"});
+    }
+    catch (error) {
+      return res.status(505).json({message: "Invalid body or error"});
+    }
+}
+
+async function getAllProducts (req: Request, res: Response) {
+    try{
+    
+    const product = await ProductSchema.find();
+      if(product){
+        return res.status(202).json({message: "Product data", products: product});
+      } else return res.status(404).json({message: "Not found products"});
+    }
+    catch (error) {
+      return res.status(505).json({message: "Invalid body or error"});
+    }
+}
+export { addProduct, getProduct, getProductById, getAllProducts}
