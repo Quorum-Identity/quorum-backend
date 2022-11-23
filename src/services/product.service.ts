@@ -80,4 +80,40 @@ async function getAllProducts (req: Request, res: Response) {
       return res.status(505).json({message: "Invalid body or error"});
     }
 }
-export { addProduct, getProduct, getProductById, getAllProducts}
+
+async function updateProductState (req: Request, res: Response ){
+  try{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { state, id } = req.body
+    ProductSchema.findOneAndUpdate({ _id: id}, { state }, {upsert: true}, function(err, doc) {
+      if (err) return res.status(404).json({message: "Invalid product"});
+      return res.status(202).json({message: "Product state updated"});
+    });
+  }
+  catch (error) {
+    return res.status(505).json({message: "Invalid body or error"});
+  }
+    
+}
+
+async function updateProductGeneral (req: Request, res: Response ){
+  try{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { images, name, description, price, ammount, type, id } = req.body
+    ProductSchema.findOneAndUpdate({ _id: id}, { images, name, description, price, ammount, type}, {upsert: true}, function(err, doc) {
+      if (err) return res.status(404).json({message: "Invalid product"});
+      return res.status(202).json({message: "Product data updated"});
+    });
+  }
+  catch (error) {
+    return res.status(505).json({message: "Invalid body or error"});
+  }
+    
+}
+export { addProduct, getProduct, getProductById, getAllProducts, updateProductState, updateProductGeneral}
