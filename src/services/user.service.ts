@@ -68,6 +68,53 @@ async function getUser (req: Request, res: Response) {
     return res.status(505).json({message: "Invalid body or error"});
   }
 }
+
+async function updateUser (req: Request, res: Response ){
+  try{
+    const token = req.cookies.access_token;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { _id } = jwt.verify(token, "SECRET_EXAMPLE_KEY") as JwtPayload;
+    const body = req.body as Pick<UserModel, "name" | "lastname" | "image_profile" | "image_banner">
+    UserSchema.findOneAndUpdate({ _id }, body, {upsert: true}, function(err, doc) {
+      if (err) return res.status(404).json({message: "Invalid account"});
+      return res.status(202).json({message: "Account updated"});
+    });
+  }
+  catch (error) {
+    return res.status(505).json({message: "Invalid body or error"});
+  }
+    
+}
+
+async function updatePassword (req: Request, res: Response ){
+  try{
+    const token = req.cookies.access_token;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { _id } = jwt.verify(token, "SECRET_EXAMPLE_KEY") as JwtPayload;
+    const { password, oldpassword } = req.body;
+    const account = await UserSchema.findOne({ _id});
+    
+    if(account){
+      if (bcrypt.compareSync(oldpassword.toString(), account.password.toString())) {
+        UserSchema.findOneAndUpdate({ _id }, { password: bcrypt.hashSync(password.toString(), 10) }, {upsert: true}, function(err, doc) {
+          if (err) return res.status(404).json({message: "Invalid account"});
+          return res.status(202).json({message: "Password updated"});
+        });      
+      } else return res.status(404).json({message: "Invalid password"});
+    }
+  }
+  catch (error) {
+    return res.status(505).json({message: "Invalid body or error"});
+  }
+    
+}
+
   
-export {registerUser, loginUser, getUser};
+export {registerUser, loginUser, getUser, updateUser, updatePassword};
   
