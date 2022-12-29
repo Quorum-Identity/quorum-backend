@@ -2,21 +2,22 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "ESNext",
-    "moduleResolution": "Node",
+    "target": "esnext",
     "outDir": "dist",
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": false,
     "strict": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "useUnknownInCatchVariables": false,
-    "inlineSourceMap": true
+    "inlineSourceMap": true,
+    "moduleResolution": "node",
+    "allowJs": true
   },
   "ts-node": {
-      "esm": true
+      "esm": true,
   },
   "lib": ["esnext"],
-  "include": ["/**/*.ts"],
+  "include": ["/**/*.ts", "src/app.js"],
   "exclude": ["node_modules"]
 }
