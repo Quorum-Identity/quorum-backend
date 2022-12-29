@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 const corsOptions ={
-  origin:'http://localhost:3000', 
+  origin:'172.25.31.155:3000', 
   credentials:true, 
   optionSuccessStatus:200,
 }
