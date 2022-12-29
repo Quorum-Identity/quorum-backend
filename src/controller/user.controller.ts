@@ -11,9 +11,10 @@ router.post("/register",
   body('password').isLength({ min: 5 }),
   body('email').isEmail(), 
   body('date_birth').isLength({ min: 5 }),
-  body('phone').isLength({ min: 5}),  
+  body('phone').isLength({ min: 3}),  
   body('type').isNumeric(), 
-  body('country').isNumeric(), 
+  body('country').isNumeric(),
+  body('gender').isNumeric(), 
   body('province').isNumeric(), 
 registerUser);
 
