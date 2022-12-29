@@ -5,6 +5,7 @@ export interface UserModel extends Document {
   lastname: String,
   date_birth: Date,
   password: String,
+  gender: number,
   country: Number,
   province: Number,
   email: String,

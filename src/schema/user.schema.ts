@@ -11,6 +11,10 @@ const userSchema: Schema = new Schema(
         type: String,
         required: true,
       },
+    gender: {
+        type: Number,
+        required: true,
+    },
     date_birth: {
         type: Date,
         required: true,

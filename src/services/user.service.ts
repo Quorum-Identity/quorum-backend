@@ -11,7 +11,7 @@ async function registerUser (req: Request, res: Response) {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const body = req.body as Pick<UserModel, "name" | "lastname" | "password" | "email" | "date_birth" | "phone" | "type" | "province" | "country">
+    const body = req.body as Pick<UserModel, "gender" | "name" | "lastname" | "password" | "email" | "date_birth" | "phone" | "type" | "province" | "country">
     const addingUser = new UserSchema({
       name: body.name,
       lastname: body.lastname,
@@ -21,7 +21,8 @@ async function registerUser (req: Request, res: Response) {
       phone: body.phone,
       type: body.type,
       country: body.country,
-      province: body.province
+      province: body.province,
+      gender: body.gender
     });
     addingUser.markModified('users');
     addingUser.save();
@@ -47,7 +48,7 @@ async function loginUser (req: Request, res: Response) {
         const token = jwt.sign({ _id: account._id?.toString(), name: account.name }, "SECRET_EXAMPLE_KEY", {
           expiresIn: '2 days',
         });
-        return res.cookie("access_token", token, {httpOnly: true, secure: process.env.NODE_ENV === "production"}).status(202).json({message: "Account loggin", user: account});
+        return res.status(202).json({message: "Account loggin", user: account, token});
       } else return res.status(404).json({message: "Invalid password"});
     } else return res.status(404).json({message: "Account not found"})
   } catch (error) {
