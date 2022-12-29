@@ -4,7 +4,6 @@
   "main": "src/app.ts",
   "author": "Nick",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "start": "set NODE_ENV=dev && node src/app.ts",
