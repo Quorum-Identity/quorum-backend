@@ -5,6 +5,7 @@ import UserSchema from "../schema/user.schema"
 import bcrypt from "bcryptjs";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
+
 async function registerUser (req: Request, res: Response) {
   try {
     const errors = validationResult(req);
