@@ -1,20 +1,19 @@
 import { Request, Response } from "express";
 import {validationResult } from 'express-validator';
-import { Private } from "../models/private";
 import privateSchema from "../schema/private";
-import bcrypt from "bcryptjs";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { BusinessMan } from "../models/businessMan";
 
-export function createPrivate (req: Request, res: Response) {
+export function createBusiness (req: Request, res: Response) {
     try{
         const errors = validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).json({errors: errors.array()});
         }
-        const body = req.body as Pick<Private,
-         "codiceFiscale" | 
+        const body = req.body as Pick<BusinessMan,
+         "partitaIva" | 
          "nome" | 
          "cognome" | 
+         "codiceFiscale" |
          "dataDiNascita" | 
          "comuneDiNascita" | 
          "provinciaDiNascita" |
@@ -30,13 +29,15 @@ export function createPrivate (req: Request, res: Response) {
          "numeroDocumento" |
          "dataScadenza" |
          "dataRilascio" |
-         "rilasciato" 
+         "rilasciato" |
+         "delegato"
           >
-         const addingPrivate = new privateSchema({
-            codiceFiscale: body.codiceFiscale,
+         const addingBusiness = new privateSchema({
+            partitaIva: body.partitaIva,
             nome: body.nome,
             cognome: body.cognome,
             dataDiNascita: body.dataDiNascita,
+            codiceFiscale: body.codiceFiscale,
             comuneDiNascita: body.comuneDiNascita,
             provinciaDiNascita: body.provinciaDiNascita,
             email: body.email,
@@ -51,17 +52,15 @@ export function createPrivate (req: Request, res: Response) {
             dataScadenza: body.dataScadenza,
             dataRilascio: body.dataRilascio,
             rilasciato: body.rilasciato,
+            delegato: body.delegato,
          })
-         addingPrivate.markModified('private');
-         addingPrivate.save();
+         addingBusiness.markModified('business');
+         addingBusiness.save();
          
-    if (addingPrivate){
-        return res.status(202).json({ message: "User registered", user: addingPrivate });
+    if (addingBusiness){
+        return res.status(202).json({ message: "User registered", user: addingBusiness });
       } else return res.status(204).json({ message: "User not registered"});
     }catch(errors){
         return res.status(505).json({message: "Invalid body or error"});
     }
 }
-
-
-

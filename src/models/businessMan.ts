@@ -1,9 +1,11 @@
 import { Document } from "mongoose";
+import { Private } from "./private";
 
-export interface Private extends Document {
-  codiceFiscale: String;
+export interface BusinessMan extends Document {
+  partitaIva: String;
   nome: String;
   cognome: String;
+  codiceFiscale: String;
   dataDiNascita: Date;
   comuneDiNascita: String;
   provinciaDiNascita: String;
@@ -21,4 +23,5 @@ export interface Private extends Document {
   dataScadenza: Date;
   dataRilascio: Date;
   rilasciato: String;
+  delegato: Private;
 }

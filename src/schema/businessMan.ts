@@ -1,9 +1,9 @@
 import { model, Schema } from "mongoose";
-import { Private } from "../models/private";
+import { BusinessMan } from "../models/businessMan";
 
-const privateSchema = new Schema(
+const businessManSchema = new Schema(
   {
-    codiceFiscale: {
+    partitaIva: {
       type: String,
       required: true,
     },
@@ -12,6 +12,10 @@ const privateSchema = new Schema(
       required: true,
     },
     cognome: {
+      type: String,
+      required: true,
+    },
+    codiceFiscale: {
       type: String,
       required: true,
     },
@@ -79,8 +83,12 @@ const privateSchema = new Schema(
       type: String,
       required: true,
     },
+    delegato: {
+      type: Object,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-export default model<Private>("privates", privateSchema);
+export default model<BusinessMan>("business", businessManSchema);
