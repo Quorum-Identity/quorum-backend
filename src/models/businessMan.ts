@@ -23,5 +23,5 @@ export interface BusinessMan extends Document {
   dataScadenza: Date;
   dataRilascio: Date;
   rilasciato: String;
-  delegato: Private;
+  delegato: String;
 }

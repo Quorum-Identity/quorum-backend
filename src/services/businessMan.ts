@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {validationResult } from 'express-validator';
-import privateSchema from "../schema/private";
+import businessManSchema from "../schema/businessMan";
 import { BusinessMan } from "../models/businessMan";
 
 export function createBusiness (req: Request, res: Response) {
@@ -32,7 +32,7 @@ export function createBusiness (req: Request, res: Response) {
          "rilasciato" |
          "delegato"
           >
-         const addingBusiness = new privateSchema({
+         const addingBusiness = new businessManSchema({
             partitaIva: body.partitaIva,
             nome: body.nome,
             cognome: body.cognome,

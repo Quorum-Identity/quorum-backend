@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
+import { body, validationResult } from "express-validator";
 import { Private } from "../models/private";
 import privateSchema from "../schema/private";
-import bcrypt from "bcryptjs";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import userSchema from "../schema/user.schema";
-import bodyParser from "body-parser";
 
 export function createPrivate(req: Request, res: Response) {
   try {
@@ -71,17 +68,20 @@ export function createPrivate(req: Request, res: Response) {
   }
 }
 
-/*export  function getPrivate(req: Request, res: Response) {
+export function getPrivate(req: Request, res: Response) {
   try {
     const token = req.cookies.access_token;
-    const { codiceFiscale } = jwt.verify(token, "SECRET_EXAMPLE_KEY") as JwtPayload;
-    const account = privateSchema.findOne({ codiceFiscale});
-    if(account){
-      return res.status(202).json({message: "User data", user: account});
-    } else return res.status(404).json({message: "Invalid account"});
-   
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { _id } = jwt.verify(token, "SECRET_EXAMPLE_KEY") as JwtPayload;
+    const body = req.body as Pick<Private, "nome" | "cognome" >
+    privateSchema.findOne({ _id }, body, {upsert: true}, function(err, doc) {
+      if (err) return res.status(404).json({message: "Invalid account"});
+      return res.status(202).json({message: "Account updated"});
+    });
   } catch (error) {
     return res.status(505).json({ message: "Invalid body or error" });
   }
 }
-*/
