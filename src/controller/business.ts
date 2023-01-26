@@ -1,5 +1,5 @@
 import express from "express";
-import {createBusiness } from "../services/businessMan";
+import {createBusiness, getBusiness } from "../services/businessMan";
 import { body } from 'express-validator';
 import { authorization } from "../middleware/user.midd";
 
@@ -12,7 +12,7 @@ router.post("/post",
   body('codiceFiscale'),
   body('dataDiNascita'), 
   body('comuneDiNascita'),
-  body('provinciaDiNascita'),  
+  body('provinciaDiNascita'),    
   body('email').isEmail(),
   body('telefono'),
   body('cellulare'),
@@ -27,5 +27,8 @@ router.post("/post",
   body("cap"),
   body("delegato"),
 createBusiness);
+
+router.get("/get", 
+   getBusiness);
 
 export default router;

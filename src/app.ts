@@ -4,6 +4,7 @@ import { globalAuthorization } from "./middleware/auth.midd";
 import UserRouter from './controller/user.controller';
 import PrivateRouter from './controller/private';
 import BusinesRouter from "./controller/business";
+import SocietyRouter from "./controller/society";
 const port = 3001;
 export const app = createServer();
 
@@ -16,6 +17,7 @@ mongoose.connect('mongodb+srv://nickname:uF07PaNHQh79tpO5@cluster0.bpdzobz.mongo
 app.use("/user", globalAuthorization, UserRouter);
 app.use("/private", PrivateRouter)
 app.use("/business", BusinesRouter)
+app.use("/society", SocietyRouter)
 app.listen(port, async () => {
   console.log(`App is running at http://localhost:${port}`);
 });

@@ -70,16 +70,15 @@ export function createPrivate(req: Request, res: Response) {
 
 export function getPrivate(req: Request, res: Response) {
   try {
-    const token = req.cookies.access_token;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { _id } = jwt.verify(token, "SECRET_EXAMPLE_KEY") as JwtPayload;
-    const body = req.body as Pick<Private, "nome" | "cognome" >
-    privateSchema.findOne({ _id }, body, {upsert: true}, function(err, doc) {
+    const {codiceFiscale} = req.body as Pick<Private, "codiceFiscale">
+    privateSchema.findOne({ codiceFiscale }, 
+      function(err, doc) {
       if (err) return res.status(404).json({message: "Invalid account"});
-      return res.status(202).json({message: "Account updated"});
+      return res.status(202).json({message: "Account ", user: doc});
     });
   } catch (error) {
     return res.status(505).json({ message: "Invalid body or error" });

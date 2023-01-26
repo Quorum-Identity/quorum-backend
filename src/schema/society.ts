@@ -3,6 +3,11 @@ import { SocietyModel } from "../models/society";
 
 const societySchema = new Schema(
   {
+    partitaIva: {
+      type: String,
+      required: true,
+    },
+
     nomeDitta: {
       type: String,
       required: true,
@@ -52,11 +57,11 @@ const societySchema = new Schema(
       required: true,
     },
     rappresentanteLegale: {
-      type: Object,
+      type: String,
       required: true,
     },
     delgato: {
-      type: Object,
+      type: String,
       required: true,
     },
   },

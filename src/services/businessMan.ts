@@ -26,7 +26,6 @@ export function createBusiness (req: Request, res: Response) {
          "nCivico" |
          "cap" |
          "tipoDocumento" |
-         "numeroDocumento" |
          "dataScadenza" |
          "dataRilascio" |
          "rilasciato" |
@@ -64,3 +63,21 @@ export function createBusiness (req: Request, res: Response) {
         return res.status(505).json({message: "Invalid body or error"});
     }
 }
+
+export function getBusiness(req: Request, res: Response) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const {partitaIva} = req.body as Pick<BusinessMan, "partitaIva">
+      businessManSchema.findOne({ partitaIva }, 
+        function(err, doc) {
+        if (err) return res.status(404).json({message: "Invalid account"});
+        return res.status(202).json({message: "Account ", business: doc});
+      });
+    } catch (error) {
+      return res.status(505).json({ message: "Invalid body or error" });
+    }
+  }
+  

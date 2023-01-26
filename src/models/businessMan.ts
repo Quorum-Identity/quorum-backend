@@ -9,7 +9,6 @@ export interface BusinessMan extends Document {
   dataDiNascita: Date;
   comuneDiNascita: String;
   provinciaDiNascita: String;
-  nazioneDiNasita: String;
   email: String;
   telefono: String;
   cellulare: String;
@@ -19,7 +18,6 @@ export interface BusinessMan extends Document {
   nCivico: Number;
   cap: Number;
   tipoDocumento: String;
-  numeroDocumento: Number;
   dataScadenza: Date;
   dataRilascio: Date;
   rilasciato: String;

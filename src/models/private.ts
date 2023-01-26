@@ -1,6 +1,5 @@
 import { Date, Document } from "mongoose";
 
-
 export interface Private extends Document {
   codiceFiscale: String;
   nome: String;
@@ -22,5 +21,4 @@ export interface Private extends Document {
   dataScadenza: Date;
   dataRilascio: Date;
   rilasciato: String;
-
 }

@@ -113,8 +113,7 @@ async function updatePassword (req: Request, res: Response ){
   }
   catch (error) {
     return res.status(505).json({message: "Invalid body or error"});
-  }
-    
+  }   
 }
 
   

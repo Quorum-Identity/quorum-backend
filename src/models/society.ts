@@ -14,6 +14,6 @@ export interface SocietyModel extends Document{
     cellulare: String,
     pEc: String,
     email: String,
-    rappresentanteLegale: Private,
-    delegato: Private,
+    rappresentanteLegale: String,
+    delegato: String,
 }

@@ -3,6 +3,7 @@ import { SimModel } from "../models/sim";
 
 const simSchema: Schema = new Schema (
     {
+        
         formato :{
             type: String,
             required: true
