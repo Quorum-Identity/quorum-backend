@@ -23,14 +23,15 @@ const privateSchema = new Schema(
       type: String,
       required: true,
     },
+      nazioneDiNascita: {
+      type: String,
+      required: true,
+    },
     provinciaDiNascita: {
       type: String,
       required: true,
     },
-    nazioneDiNascita: {
-      type: String,
-      required: true,
-    },
+
     email: {
       type: String,
       required: true,

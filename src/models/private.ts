@@ -1,4 +1,5 @@
-import { Document } from "mongoose";
+import { Date, Document } from "mongoose";
+
 
 export interface Private extends Document {
   codiceFiscale: String;
@@ -6,8 +7,8 @@ export interface Private extends Document {
   cognome: String;
   dataDiNascita: Date;
   comuneDiNascita: String;
+  nazioneDiNascita: String;
   provinciaDiNascita: String;
-  nazioneDiNasita: String;
   email: String;
   telefono: String;
   cellulare: String;
@@ -21,4 +22,5 @@ export interface Private extends Document {
   dataScadenza: Date;
   dataRilascio: Date;
   rilasciato: String;
+
 }

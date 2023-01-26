@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { BusinessMan } from "../models/businessMan";
+import { Private } from "../models/private";
 
 const businessManSchema = new Schema(
   {
@@ -84,7 +85,7 @@ const businessManSchema = new Schema(
       required: true,
     },
     delegato: {
-      type: Object,
+      type: String,
       required: true,
     },
   },
