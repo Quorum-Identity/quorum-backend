@@ -60,7 +60,7 @@ const societySchema = new Schema(
       type: String,
       required: true,
     },
-    delgato: {
+    delegato: {
       type: String,
       required: true,
     },

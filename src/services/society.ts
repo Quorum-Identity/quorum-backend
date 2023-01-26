@@ -16,6 +16,7 @@ export function createSociety(req: Request, res: Response) {
       "tipoAzienda" |     
       "comuneAzienda" |  
       "provinciaAzienda" |
+      "codiceSdi" |
       "indirizzo" |
       "civico" |
       "cap" |
@@ -32,12 +33,13 @@ export function createSociety(req: Request, res: Response) {
         tipoAzienda: body.tipoAzienda,
         comuneAzienda: body.comuneAzienda,
         provinciaAzienda: body.provinciaAzienda,
+        codiceSdi: body.codiceSdi,
         indirizzo: body.indirizzo,
         civico: body.civico,
         cap: body.cap,
         telefono: body.telefono,
         cellulare: body.cellulare,
-        pRc: body.pEc,
+        pEc: body.pEc,
         email: body.email,
         rappresentanteLegale: body.rappresentanteLegale,
         delegato: body.delegato,
@@ -55,4 +57,20 @@ export function createSociety(req: Request, res: Response) {
   }
 }
 
+export function getSociety(req: Request, res: Response) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const {partitaIva} = req.body as Pick<SocietyModel ,"partitaIva">
+      societySchema.findOne({ partitaIva }, 
+        function(err, doc) {
+        if (err) return res.status(404).json({message: "Invalid account"});
+        return res.status(202).json({message: "Account ", user: doc});
+      });
+    } catch (error) {
+      return res.status(505).json({ message: "Invalid body or error" });
+    }
+  }
 
