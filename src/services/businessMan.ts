@@ -17,6 +17,8 @@ export function createBusiness (req: Request, res: Response) {
          "dataDiNascita" | 
          "comuneDiNascita" | 
          "provinciaDiNascita" |
+         "nazioneDiNascita" |
+         "numeroDocumento" |
          "email" |
          "telefono" |
          "cellulare" |
@@ -36,6 +38,8 @@ export function createBusiness (req: Request, res: Response) {
             nome: body.nome,
             cognome: body.cognome,
             dataDiNascita: body.dataDiNascita,
+            numeroDocumento: body.numeroDocumento,
+            nazioneDiNascita: body.nazioneDiNascita,
             codiceFiscale: body.codiceFiscale,
             comuneDiNascita: body.comuneDiNascita,
             provinciaDiNascita: body.provinciaDiNascita,

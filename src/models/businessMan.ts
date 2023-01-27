@@ -22,4 +22,6 @@ export interface BusinessMan extends Document {
   dataRilascio: Date;
   rilasciato: String;
   delegato: String;
+  numeroDocumento: Number,
+  nazioneDiNascita: String
 }
