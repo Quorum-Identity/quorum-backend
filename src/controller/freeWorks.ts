@@ -1,7 +1,7 @@
 import express from "express";
-import {createBusiness, getBusiness, upDateBusiness } from "../services/businessMan";
 import { body } from 'express-validator';
 import { authorization } from "../middleware/user.midd";
+import { createFreeWork, getFreeWork } from "../services/freeWork";
 
 var router = express.Router();
 
@@ -26,12 +26,9 @@ router.post("/post",
   body("dataDiRilascio"),
   body("rilasciato").isLength({min: 3}),
   body("delegato").isLength({min: 3}),
-createBusiness);
+  createFreeWork);
 
 router.get("/get", 
-   getBusiness);
-
-router.put("/put", 
-   upDateBusiness);
+getFreeWork);
 
 export default router;

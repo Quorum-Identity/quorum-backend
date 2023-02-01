@@ -28,6 +28,6 @@ router.post("/create",
   body("rilasciato").isLength({min:1}),
   createPrivate );
 
-  router.get("/get", 
+  router.post("/get", 
    getPrivate);
 export default router;
