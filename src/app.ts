@@ -5,6 +5,7 @@ import UserRouter from './controller/user.controller';
 import PrivateRouter from './controller/private';
 import BusinesRouter from "./controller/business";
 import SocietyRouter from "./controller/society";
+import DealerRouter from "./controller/dealerController";
 const port = 3001;
 export const app = createServer();
 
@@ -18,6 +19,7 @@ app.use("/user", globalAuthorization, UserRouter);
 app.use("/private", PrivateRouter)
 app.use("/business", BusinesRouter)
 app.use("/society", SocietyRouter)
+app.use("/dealers", DealerRouter)
 app.listen(port, async () => {
   console.log(`App is running at http://localhost:${port}`);
 });
