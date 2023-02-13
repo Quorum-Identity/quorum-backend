@@ -18,9 +18,9 @@ router.post("/register",
   body('province').isNumeric(), 
 registerUser);
 
-router.post("/login",
+router.post("/logins",
+ body('email').isEmail(), 
   body('password').isLength({ min: 5 }), 
-  body('email').isEmail(), 
 loginUser);
 
 router.get("/data", authorization, getUser);

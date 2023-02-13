@@ -6,16 +6,18 @@ import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 
-const c = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let randPassword = [...Array(8)].map(_ => c[~~(Math.random()*c.length)]).join('');
-    let encryptedrandPassword = bcrypt.hashSync(randPassword.toString(), 10);
+
 
 export function createDealer(req: Request, res: Response) {
-  try {
+  try {  
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    const c = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let randPassword = [...Array(8)].map(_ => c[~~(Math.random()*c.length)]).join('');
+    let encryptedrandPassword = bcrypt.hashSync(randPassword.toString(), 10);
+    
     const body = req.body as Pick<
       Dealer,
       | "tipologia"
@@ -37,17 +39,13 @@ export function createDealer(req: Request, res: Response) {
       | "emailRef"
       | "ruole"
       |"dominio"
-      | "logo"
-      |"colore1"
-      |"colore2"
-      |"colore3"
     >;
     const addingDealer = new dealerSchema({
       tipologia: body.tipologia,
       ragioneSociale: body.ragioneSociale,
       tipoAzienda: body.tipoAzienda,
       email: body.email,
-      password: encryptedrandPassword,
+      password:  encryptedrandPassword,
       username: body.username,
       indirizzo: body.indirizzo,
       comune: body.comune,
@@ -62,10 +60,6 @@ export function createDealer(req: Request, res: Response) {
       emailRef: body.emailRef,
       ruole: body.ruole,
       dominio: body.dominio,
-      logo: body.logo,
-      colore1: body.colore1,
-      colore2: body.colore2,
-      colore3: body.colore3
     });
     addingDealer.markModified("dealers");
     addingDealer.save();
@@ -73,8 +67,8 @@ export function createDealer(req: Request, res: Response) {
     if (addingDealer) {
       return res
         .status(202)
-        .json({ message: "Company registered", user: addingDealer });
-    } else return res.status(204).json({ message: "Company not registered" });
+        .json({ message: "Dealer/Master Dealer registered", user: addingDealer, password: randPassword });
+    } else return res.status(204).json({ message: "Dealer/Master Dealer not registered" });
   } catch (errors) {
     return res.status(505).json({ message: "Invalid body or error" });
   }
@@ -88,8 +82,8 @@ export function getDealer(req: Request, res: Response) {
     }
     const { cFiscale } = req.body as Pick<Dealer, "cFiscale">;
     dealerSchema.findOne({ cFiscale }, function (err, doc) {
-      if (err) return res.status(404).json({ message: "Company don't found" });
-      return res.status(202).json({ message: "Company found", dealers: doc });
+      if (err) return res.status(404).json({ message: "Dealer don't found" });
+      return res.status(202).json({ message: "Dealer found", dealers: doc });
     });
   } catch (error) {
     return res.status(505).json({ message: "Invalid body or error" });
