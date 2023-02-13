@@ -14,6 +14,10 @@ const dealerSchema = new Schema({
     type: String,
     require: true,
   },
+  password:{
+    type: String,
+    require: true,
+  },
   tipoAzienda: {
     type: String,
     require: true,
@@ -31,7 +35,7 @@ const dealerSchema = new Schema({
     require: true,
   },
   comune: {
-    type: Number,
+    type: String,
     require: true,
   },
   provincia: {
@@ -71,6 +75,26 @@ const dealerSchema = new Schema({
     require: true,
   },
   ruole: {
+    type: String,
+    require: true
+  },
+  dominio: {
+    type: String,
+    require: true
+  },
+  logo: {
+    type: String,
+    require: true
+  },
+  colore1: {
+    type: String,
+    require: true
+  },
+  color2: {
+    type: String,
+    require: true
+  },
+  color3: {
     type: String,
     require: true
   }
