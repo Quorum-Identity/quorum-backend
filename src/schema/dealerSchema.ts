@@ -82,22 +82,6 @@ const dealerSchema = new Schema({
     type: String,
     require: true
   },
-  logo: {
-    type: String,
-    require: true
-  },
-  colore1: {
-    type: String,
-    require: true
-  },
-  color2: {
-    type: String,
-    require: true
-  },
-  color3: {
-    type: String,
-    require: true
-  }
 },
   { timestamps: true }
 );

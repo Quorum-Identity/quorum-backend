@@ -18,8 +18,4 @@ telefono: String;
 emailRef: String;
 ruole: String;
 dominio: String;
-logo: String;
-colore1: String,
-colore2: String,
-colore3: String,
 }

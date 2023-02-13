@@ -9,7 +9,7 @@ router.post("/post",
   body('tipologia').isLength({min: 1}),
   body('ragioneSociale').isLength({min: 1}), 
   body('tipoAzienda').isLength({min: 1}),
-  body('email').isLength({min: 1}),
+  body('email').isEmail(),
   body('usurname').isLength({min: 1}), 
   body('indirizzo').isLength({min: 1}),
   body('comune').isLength({min: 1}),  
@@ -24,16 +24,12 @@ router.post("/post",
   body('emailRef').isLength({min: 1}),
   body('ruole').isLength({min: 1}),
   body('dominio').isLength({min: 1}),
-  body('logo').isLength({min: 1}),
-  body('colore1').isLength({min: 1}),
-  body('colore2').isLength({min: 1}),
-  body('colore3').isLength({min: 1}),
 createDealer);
 
 router.get("/get", 
    getDealer);
 
-   router.post("/login",
+   router.post("/logins",
   body('password').isLength({ min: 5 }), 
   body('email').isEmail(), 
 loginDealer);
