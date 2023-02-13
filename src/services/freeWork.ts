@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import {validationResult } from 'express-validator';
-import businessManSchema from "../schema/businessMan";
-import { BusinessMan } from "../models/businessMan";
+import freeWorkSchema from "../schema/freeWorks";
+import { FreeWorks } from "../models/freeWorks";
 
-export function createBusiness (req: Request, res: Response) {
+export function createFreeWork (req: Request, res: Response) {
     try{
         const errors = validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).json({errors: errors.array()});
         }
-        const body = req.body as Pick<BusinessMan,
+        const body = req.body as Pick<FreeWorks,
          "partitaIva" | 
          "nome" | 
          "cognome" | 
@@ -33,7 +33,7 @@ export function createBusiness (req: Request, res: Response) {
          "rilasciato" |
          "delegato"
           >
-         const addingBusiness = new businessManSchema({
+         const addingFreeWork = new freeWorkSchema({
             partitaIva: body.partitaIva,
             nome: body.nome,
             cognome: body.cognome,
@@ -57,25 +57,25 @@ export function createBusiness (req: Request, res: Response) {
             rilasciato: body.rilasciato,
             delegato: body.delegato,
          })
-         addingBusiness.markModified('business');
-         addingBusiness.save();
+         addingFreeWork.markModified('freeWork');
+         addingFreeWork.save();
          
-    if (addingBusiness){
-        return res.status(202).json({ message: "User registered", user: addingBusiness });
+    if (addingFreeWork){
+        return res.status(202).json({ message: "User registered", user: addingFreeWork });
       } else return res.status(204).json({ message: "User not registered"});
     }catch(errors){
         return res.status(505).json({message: "Invalid body or error"});
     }
 }
 
-export function getBusiness(req: Request, res: Response) {
+export function getFreeWork(req: Request, res: Response) {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      const {partitaIva} = req.body as Pick<BusinessMan, "partitaIva">
-      businessManSchema.findOne({ partitaIva }, 
+      const {partitaIva} = req.body as Pick<FreeWorks, "partitaIva">
+      freeWorkSchema.findOne({ partitaIva }, 
         function(err, doc) {
         if (err) return res.status(404).json({message: "Invalid account"});
         return res.status(202).json({message: "Account ", business: doc});
@@ -84,21 +84,3 @@ export function getBusiness(req: Request, res: Response) {
       return res.status(505).json({ message: "Invalid body or error" });
     }
   }
-
-  export function upDateBusiness(req: Request , res: Response){
-    try {
-      const errors = validationResult(req);
-      if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()});
-      }
-      const { partitaIva} = req.body as Pick<BusinessMan, "partitaIva">
-      businessManSchema.findOneAndUpdate({ partitaIva }, 
-       function(err, doc) {
-if(err) return res.status(404).json({message: "invalid Account"});
-return res.status(202).json({message: "invalid body or error"});
-       });
-    }catch(error){
-      return res.status(505).json({message: "invalid body"});
-    }
-  }
-  
