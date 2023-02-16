@@ -39,6 +39,8 @@ export function createDealer(req: Request, res: Response) {
       | "emailRef"
       | "ruole"
       |"dominio"
+      | "credito"
+      | "sim"
     >;
     const addingDealer = new dealerSchema({
       tipologia: body.tipologia,
@@ -60,6 +62,8 @@ export function createDealer(req: Request, res: Response) {
       emailRef: body.emailRef,
       ruole: body.ruole,
       dominio: body.dominio,
+      credito : body.credito,
+      sim: body.sim
     });
     addingDealer.markModified("dealers");
     addingDealer.save();
@@ -74,7 +78,7 @@ export function createDealer(req: Request, res: Response) {
   }
 }
 
-export function getDealer(req: Request, res: Response) {
+export function getDealer1(req: Request, res: Response) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -82,6 +86,26 @@ export function getDealer(req: Request, res: Response) {
     }
     const { cFiscale } = req.body as Pick<Dealer, "cFiscale">;
     dealerSchema.findOne({ cFiscale }, function (err, doc) {
+      if (err) return res.status(404).json({ message: "Dealer don't found" });
+      console.log(res.status);
+      
+      return res.status(202).json({ message: "Dealer found", dealers: doc });
+    });
+  } catch (error) {
+    return res.status(505).json({ message: "Invalid body or error" });
+  }
+}
+
+
+
+
+export function getDealer( req: Request | any, res: Response ) {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    dealerSchema.findOne({_id: req._id}, function (err, doc) {
       if (err) return res.status(404).json({ message: "Dealer don't found" });
       return res.status(202).json({ message: "Dealer found", dealers: doc });
     });
@@ -100,7 +124,7 @@ export function getDealer(req: Request, res: Response) {
     const account = await dealerSchema.findOne({ email: body.email });
     if(account){
       if (bcrypt.compareSync(body.password.toString(), account.password.toString())) {
-        const token = jwt.sign({ _id: account._id?.toString(), name: account.username }, "SECRET_EXAMPLE_KEY", {
+        const token = jwt.sign({ _id: account._id?.toString() }, "SECRET_EXAMPLE_KEY", {
           expiresIn: '2 days',
         });
         return res.status(202).json({message: "Account loggin", user: account, token});

@@ -82,6 +82,14 @@ const dealerSchema = new Schema({
     type: String,
     require: true
   },
+  credito: {
+    type: Number,
+    require: true
+  },
+  sim: {
+    type: Number,
+    require: true
+  }
 },
   { timestamps: true }
 );
