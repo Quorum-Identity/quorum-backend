@@ -8,17 +8,23 @@ const server_1 = __importDefault(require("./utils/server"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const auth_midd_1 = require("./middleware/auth.midd");
 const user_controller_1 = __importDefault(require("./controller/user.controller"));
-const product_controller_1 = __importDefault(require("./controller/product.controller"));
+const private_1 = __importDefault(require("./controller/private"));
+const business_1 = __importDefault(require("./controller/business"));
+const society_1 = __importDefault(require("./controller/society"));
+const dealerController_1 = __importDefault(require("./controller/dealerController"));
 const port = 3001;
 exports.app = (0, server_1.default)();
-mongoose_1.default.connect('mongodb+srv://nickname:uF07PaNHQh79tpO5@cluster0.bpdzobz.mongodb.net/vediloo?retryWrites=true&w=majority', err => {
+mongoose_1.default.connect('mongodb+srv://nickname:uF07PaNHQh79tpO5@cluster0.bpdzobz.mongodb.net/edesk?retryWrites=true&w=majority', err => {
     if (err)
         throw err;
     console.log('connected to MongoDB');
 });
 exports.app.use("/user", auth_midd_1.globalAuthorization, user_controller_1.default);
-exports.app.use("/product", auth_midd_1.globalAuthorization, product_controller_1.default);
+exports.app.use("/private", private_1.default);
+exports.app.use("/business", business_1.default);
+exports.app.use("/society", society_1.default);
+exports.app.use("/dealers", dealerController_1.default);
 exports.app.listen(port, async () => {
     console.log(`App is running at http://localhost:${port}`);
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vc3JjL2FwcC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQSw0REFBMEM7QUFDMUMsd0RBQStCO0FBQy9CLHNEQUE2RDtBQUM3RCxtRkFBcUQ7QUFDckQseUZBQTJEO0FBRTNELE1BQU0sSUFBSSxHQUFHLElBQUksQ0FBQztBQUNMLFFBQUEsR0FBRyxHQUFHLElBQUEsZ0JBQVksR0FBRSxDQUFDO0FBR2xDLGtCQUFRLENBQUMsT0FBTyxDQUFDLDBHQUEwRyxFQUN6SCxHQUFHLENBQUMsRUFBRTtJQUNGLElBQUcsR0FBRztRQUFFLE1BQU0sR0FBRyxDQUFDO0lBQ2xCLE9BQU8sQ0FBQyxHQUFHLENBQUMsc0JBQXNCLENBQUMsQ0FBQztBQUMxQyxDQUFDLENBQUMsQ0FBQztBQU1ILFdBQUcsQ0FBQyxHQUFHLENBQUMsT0FBTyxFQUFFLCtCQUFtQixFQUFFLHlCQUFVLENBQUMsQ0FBQztBQUNsRCxXQUFHLENBQUMsR0FBRyxDQUFDLFVBQVUsRUFBRSwrQkFBbUIsRUFBRSw0QkFBYSxDQUFDLENBQUM7QUFJeEQsV0FBRyxDQUFDLE1BQU0sQ0FBQyxJQUFJLEVBQUUsS0FBSyxJQUFJLEVBQUU7SUFDMUIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxzQ0FBc0MsSUFBSSxFQUFFLENBQUMsQ0FBQztBQUM1RCxDQUFDLENBQUMsQ0FBQyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vc3JjL2FwcC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQSw0REFBMEM7QUFDMUMsd0RBQStCO0FBQy9CLHNEQUE2RDtBQUM3RCxtRkFBc0Q7QUFDdEQsbUVBQWlEO0FBQ2pELHFFQUFrRDtBQUNsRCxtRUFBaUQ7QUFDakQscUZBQXlEO0FBQ3pELE1BQU0sSUFBSSxHQUFHLElBQUksQ0FBQztBQUNMLFFBQUEsR0FBRyxHQUFHLElBQUEsZ0JBQVksR0FBRSxDQUFDO0FBRWxDLGtCQUFRLENBQUMsT0FBTyxDQUFDLHdHQUF3RyxFQUN2SCxHQUFHLENBQUMsRUFBRTtJQUNGLElBQUcsR0FBRztRQUFFLE1BQU0sR0FBRyxDQUFDO0lBQ2xCLE9BQU8sQ0FBQyxHQUFHLENBQUMsc0JBQXNCLENBQUMsQ0FBQztBQUMxQyxDQUFDLENBQUMsQ0FBQztBQUVILFdBQUcsQ0FBQyxHQUFHLENBQUMsT0FBTyxFQUFFLCtCQUFtQixFQUFFLHlCQUFVLENBQUMsQ0FBQztBQUNsRCxXQUFHLENBQUMsR0FBRyxDQUFDLFVBQVUsRUFBRSxpQkFBYSxDQUFDLENBQUE7QUFDbEMsV0FBRyxDQUFDLEdBQUcsQ0FBQyxXQUFXLEVBQUUsa0JBQWEsQ0FBQyxDQUFBO0FBQ25DLFdBQUcsQ0FBQyxHQUFHLENBQUMsVUFBVSxFQUFFLGlCQUFhLENBQUMsQ0FBQTtBQUNsQyxXQUFHLENBQUMsR0FBRyxDQUFDLFVBQVUsRUFBRSwwQkFBWSxDQUFDLENBQUE7QUFDakMsV0FBRyxDQUFDLE1BQU0sQ0FBQyxJQUFJLEVBQUUsS0FBSyxJQUFJLEVBQUU7SUFDMUIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxzQ0FBc0MsSUFBSSxFQUFFLENBQUMsQ0FBQztBQUM1RCxDQUFDLENBQUMsQ0FBQyJ9
