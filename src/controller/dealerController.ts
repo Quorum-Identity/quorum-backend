@@ -1,8 +1,9 @@
 import express from "express";
 
 import { body } from 'express-validator';
-import { authorization } from "../middleware/user.midd";
-import { createDealer, getDealer, loginDealer, upDateDealer } from "../services/dealerService";
+import { authorization } from "../middleware/dealer";
+import { createDealer, getDealer,  loginDealer, upDateDealer } from "../services/dealerService";
+
 var router = express.Router();
 
 router.post("/post",
@@ -24,9 +25,11 @@ router.post("/post",
   body('emailRef').isLength({min: 1}),
   body('ruole').isLength({min: 1}),
   body('dominio').isLength({min: 1}),
+  body("credito").isNumeric(),
+  body("sim").isNumeric(),
 createDealer);
 
-router.get("/get", 
+router.get("/get", authorization,
    getDealer);
 
    router.post("/logins",

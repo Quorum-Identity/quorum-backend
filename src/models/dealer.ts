@@ -18,4 +18,6 @@ telefono: String;
 emailRef: String;
 ruole: String;
 dominio: String;
+credito: Number;
+sim: Number;
 }
