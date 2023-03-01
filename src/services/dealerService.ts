@@ -8,7 +8,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 
 
-export function createDealer(req: Request, res: Response) {
+export function createDealer(req: Request | any, res: Response) {
   try {  
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -20,6 +20,7 @@ export function createDealer(req: Request, res: Response) {
     
     const body = req.body as Pick<
       Dealer,
+      
       | "tipologia"
       | "ragioneSociale"
       | "tipoAzienda"
@@ -63,7 +64,8 @@ export function createDealer(req: Request, res: Response) {
       ruole: body.ruole,
       dominio: body.dominio,
       credito : body.credito,
-      sim: body.sim
+      sim: body.sim,
+      from_id: req._id
     });
     addingDealer.markModified("dealers");
     addingDealer.save();
@@ -78,7 +80,7 @@ export function createDealer(req: Request, res: Response) {
   }
 }
 
-export function getDealer1(req: Request, res: Response) {
+export function getDealerByCodice(req: Request, res: Response) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -88,6 +90,20 @@ export function getDealer1(req: Request, res: Response) {
     dealerSchema.findOne({ cFiscale }, function (err, doc) {
       if (err) return res.status(404).json({ message: "Dealer don't found" });
       console.log(res.status);
+      
+      return res.status(202).json({ message: "Dealer found", dealers: doc });
+    });
+  } catch (error) {
+    return res.status(505).json({ message: "Invalid body or error" });
+  }
+}
+
+
+export function getUserDealers(req: Request | any, res: Response) {
+  try {
+    
+    dealerSchema.findOne({ from_id: req._id }, function (err, doc) {
+      if (err) return res.status(404).json({ message: "Dealers don't found" });
       
       return res.status(202).json({ message: "Dealer found", dealers: doc });
     });

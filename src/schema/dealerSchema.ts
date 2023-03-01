@@ -6,6 +6,10 @@ import { Dealer } from "../models/dealer";
 
 
 const dealerSchema = new Schema({
+  from_id: {
+    type: String,
+    require: true
+  },
   tipologia: {
     type: String,
     require: true,

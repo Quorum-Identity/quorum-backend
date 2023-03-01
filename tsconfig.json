@@ -18,6 +18,6 @@
       "esm": true,
   },
   "lib": ["esnext"],
-  "include": ["/**/*.ts", "src/app.js"],
+  "include": ["/**/*.ts", "dist/app.js"],
   "exclude": ["node_modules"]
 }
