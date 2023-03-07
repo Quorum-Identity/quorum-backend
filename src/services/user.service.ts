@@ -46,7 +46,7 @@ async function loginUser (req: Request, res: Response) {
     const account = await UserSchema.findOne({ email: body.email });
     if(account){
       if (bcrypt.compareSync(body.password.toString(), account.password.toString())) {
-        const token = jwt.sign({ _id: account._id?.toString(), name: account.name }, "SECRET_EXAMPLE_KEY", {
+        const token = jwt.sign({ _id: account._id.toString(), name: account.name }, "SECRET_EXAMPLE_KEY", {
           expiresIn: '2 days',
         });
         return res.status(202).json({message: "Account loggin", user: account, token});
