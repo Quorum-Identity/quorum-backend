@@ -7,7 +7,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "start": "set NODE_ENV=dev && node dist/app.js",
+    "start": "ts-node ./src/app.ts",
     "build": "tsc",
     "test": "jest"
   },
