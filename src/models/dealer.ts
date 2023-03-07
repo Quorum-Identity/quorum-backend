@@ -1,4 +1,6 @@
 export interface Dealer extends Document{
+    _id: String,
+from_id: String,
 tipologia: String;
 ragioneSociale: String;
 tipoAzienda: String;

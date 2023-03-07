@@ -2,7 +2,7 @@ import express from "express";
 
 import { body } from 'express-validator';
 import { authorization } from "../middleware/dealer";
-import { getUserDealers, getDealerByCodice, createDealer, getDealer,  loginDealer, upDateDealer } from "../services/dealerService";
+import { resetPassword, getUserDealers, getDealerByCodice, createDealer, getDealer,  loginDealer, updateDealer } from "../services/dealerService";
 
 var router = express.Router();
 
@@ -34,6 +34,10 @@ router.get("/get", authorization,
 router.get("/getdealers", authorization,
 getUserDealers);
 
+router.post("/updatepassword", authorization,
+body("_id").isLength({min: 6}),
+resetPassword);
+
 router.post("/login",
   body('password').isLength({ min: 5 }), 
   body('email').isEmail(), 
@@ -43,7 +47,8 @@ router.post("/getbycodice",
   body('cFiscale').isLength({ min: 2 }), 
 getDealerByCodice);
 
-router.put("/put", 
-   upDateDealer);
+router.post("/updatedealer", authorization,
+  body("_id").isLength({min: 6}),
+updateDealer);
 
 export default router;

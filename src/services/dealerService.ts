@@ -41,7 +41,7 @@ export function createDealer(req: Request | any, res: Response) {
       | "ruole"
       |"dominio"
       | "credito"
-      | "sim"
+      | "sim" | "from_id"
     >;
     const addingDealer = new dealerSchema({
       tipologia: body.tipologia,
@@ -65,11 +65,10 @@ export function createDealer(req: Request | any, res: Response) {
       dominio: body.dominio,
       credito : body.credito,
       sim: body.sim,
-      from_id: req._id
+      from_id: body.from_id ?? ''
     });
     addingDealer.markModified("dealers");
-    addingDealer.save();
-
+    addingDealer.save()
     if (addingDealer) {
       return res
         .status(202)
@@ -102,6 +101,7 @@ export function getDealerByCodice(req: Request, res: Response) {
 export function getUserDealers(req: Request | any, res: Response) {
   try {
     
+    
     dealerSchema.findOne({ from_id: req._id }, function (err, doc) {
       if (err) return res.status(404).json({ message: "Dealers don't found" });
       
@@ -113,7 +113,25 @@ export function getUserDealers(req: Request | any, res: Response) {
 }
 
 
-
+export function resetPassword(req: Request | any, res: Response) {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { _id } = req.body as Pick<Dealer, "_id">;
+    const c = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let randPassword = [...Array(8)].map(_ => c[~~(Math.random()*c.length)]).join('');
+    let encryptedrandPassword = bcrypt.hashSync(randPassword.toString(), 10);
+    dealerSchema.findOneAndUpdate({_id}, { password: encryptedrandPassword }, function (err, doc) {
+      if (err) return res.status(404).json({ message: "invalid body or error" });
+      return res.status(202).json({ message: "Password Updated", password: randPassword });
+    });
+    
+  } catch (error) {
+    return res.status(505).json({ message: "Invalid body or error" });
+  }
+}
 
 export function getDealer( req: Request | any, res: Response ) {
   try {
@@ -152,7 +170,7 @@ export function getDealer( req: Request | any, res: Response ) {
 }
 
 
-export function upDateDealer(req: Request, res: Response) {
+export function updateDealer(req: Request, res: Response) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

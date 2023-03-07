@@ -9,7 +9,7 @@ import DealerRouter from "./controller/dealerController";
 const port = 3001;
 export const app = createServer();
 
-mongoose.connect('mongodb+srv://nickname:uF07PaNHQh79tpO5@cluster0.bpdzobz.mongodb.net/edesk?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://canitrotbartolome:juInQ2XWJkOIWiqa@cluster0.x5zoaac.mongodb.net/edesk?retryWrites=true&w=majority',
   err => {
       if(err) throw err;
       console.log('connected to MongoDB');

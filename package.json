@@ -28,6 +28,7 @@
     "node-fetch-commonjs": "^3.2.4",
     "pino": "^6.13.3",
     "pino-pretty": "^7.0.1",
+    "react-notifications": "^1.7.4",
     "ts-node": "10.9.1"
   },
   "devDependencies": {
