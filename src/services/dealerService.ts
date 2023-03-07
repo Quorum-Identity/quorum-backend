@@ -65,7 +65,7 @@ export function createDealer(req: Request | any, res: Response) {
       dominio: body.dominio,
       credito : body.credito,
       sim: body.sim,
-      from_id: body.from_id ?? ''
+      from_id: body.from_id
     });
     addingDealer.markModified("dealers");
     addingDealer.save()
@@ -158,7 +158,7 @@ export function getDealer( req: Request | any, res: Response ) {
     const account = await dealerSchema.findOne({ email: body.email });
     if(account){
       if (bcrypt.compareSync(body.password.toString(), account.password.toString())) {
-        const token = jwt.sign({ _id: account._id?.toString() }, "SECRET_EXAMPLE_KEY", {
+        const token = jwt.sign({ _id: account._id.toString() }, "SECRET_EXAMPLE_KEY", {
           expiresIn: '2 days',
         });
         return res.status(202).json({message: "Account loggin", user: account, token});
