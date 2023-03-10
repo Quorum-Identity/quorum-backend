@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { Dealer } from "../models/dealer";
 import dealerSchema from "../schema/dealerSchema";
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { Dealer } from "../models/dealer";
 
 
 
@@ -102,7 +102,7 @@ export function getUserDealers(req: Request | any, res: Response) {
   try {
     
     
-    dealerSchema.findOne({ from_id: req._id }, function (err, doc) {
+    dealerSchema.find({ from_id: req._id }, function (err, doc) {
       if (err) return res.status(404).json({ message: "Dealers don't found" });
       
       return res.status(202).json({ message: "Dealer found", dealers: doc });
@@ -181,6 +181,78 @@ export function updateDealer(req: Request, res: Response) {
       if (err) return res.status(404).json({ message: "invalid Account" });
       return res.status(202).json({ message: "invalid body or error" });
     });
+  } catch (error) {
+    return res.status(505).json({ message: "invalid body" });
+  }
+}
+
+
+export async function moveCreditsDealer(req: Request, res: Response) {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { from, to, ammount } = req.body;
+    var dealerFrom;
+    var dealerTo;
+
+    await dealerSchema.findById(from).then((doc) => {
+      dealerFrom = doc as Dealer;
+    });
+    await dealerSchema.findById(to).then((doc) => {
+      dealerTo = doc as Dealer;
+    });
+    if(dealerFrom !== null){
+      if(Number(dealerFrom?.credito) >= ammount ){
+        dealerSchema.findOneAndUpdate({_id: from}, { credito: Number(dealerFrom?.credito) - ammount }, function (err, doc) {
+          if (doc == null) return res.status(404).json({ message: "invalid from Account" });
+        });
+
+         dealerSchema.findOneAndUpdate({_id: to}, { credito: Number(dealerTo?.credito) + ammount }, function (err, doc) {
+          if (doc == null) return res.status(404).json({ message: "invalid Account to" });
+        });
+        return res.status(202).json({ message: "Credito moved", ammount});
+      }else return res.status(404).json({ message: "invalid from account ammount" });
+    } else return res.status(404).json({ message: "invalid Account" });
+    
+  } catch (error) {
+    return res.status(505).json({ message: "invalid body" });
+  }
+}
+
+
+export async function moveSimsDealer(req: Request, res: Response) {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { from, to, ammount } = req.body;
+    var dealerFrom;
+    var dealerTo;
+
+    await dealerSchema.findById(from).then((doc) => {
+      dealerFrom = doc as Dealer;
+    });
+    await dealerSchema.findById(to).then((doc) => {
+      dealerTo = doc as Dealer;
+    });
+    if(dealerFrom !== null){
+      if(Number(dealerFrom?.sim) >= ammount ){
+        dealerSchema.findOneAndUpdate({_id: from}, { sim: Number(dealerFrom?.sim) - ammount }, function (err, doc) {
+          if (doc == null) return res.status(404).json({ message: "invalid from Account" });
+        });
+
+         dealerSchema.findOneAndUpdate({_id: to}, { sim: Number(dealerTo?.sim) + ammount }, function (err, doc) {
+          if (doc == null) return res.status(404).json({ message: "invalid Account to" });
+        });
+        //const history = new historySchema({});
+
+        return res.status(202).json({ message: "Sims moved", ammount});
+      }else return res.status(404).json({ message: "invalid from account ammount" });
+    } else return res.status(404).json({ message: "invalid Account" });
+    
   } catch (error) {
     return res.status(505).json({ message: "invalid body" });
   }
