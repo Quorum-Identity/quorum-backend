@@ -2,7 +2,7 @@ import express from "express";
 
 import { body } from 'express-validator';
 import { authorization } from "../middleware/dealer";
-import {moveSimsDealer, moveCreditsDealer, resetPassword, getUserDealers, getDealerByCodice, createDealer, getDealer,  loginDealer, updateDealer } from "../services/dealerService";
+import {getHistoriesMovements, moveSimsDealer, moveCreditsDealer, resetPassword, getUserDealers, getDealerByCodice, createDealer, getDealer,  loginDealer, updateDealer } from "../services/dealerService";
 
 var router = express.Router();
 
@@ -33,7 +33,8 @@ router.get("/get", authorization,
    getDealer);
 router.get("/getdealers", authorization,
 getUserDealers);
-
+router.get("/gethistories", authorization,
+getHistoriesMovements);
 router.post("/updatepassword", authorization,
 body("_id").isLength({min: 6}),
 resetPassword);

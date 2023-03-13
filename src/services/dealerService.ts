@@ -4,7 +4,7 @@ import dealerSchema from "../schema/dealerSchema";
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Dealer } from "../models/dealer";
-
+import historySchema from '../schema/history';
 
 
 
@@ -187,7 +187,7 @@ export function updateDealer(req: Request, res: Response) {
 }
 
 
-export async function moveCreditsDealer(req: Request, res: Response) {
+export async function moveCreditsDealer(req: Request | any, res: Response) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -196,7 +196,10 @@ export async function moveCreditsDealer(req: Request, res: Response) {
     const { from, to, ammount } = req.body;
     var dealerFrom;
     var dealerTo;
-
+    var dealerBy;
+    await dealerSchema.findById(req._id).then((doc) => {
+      dealerBy = doc as Dealer;
+    });
     await dealerSchema.findById(from).then((doc) => {
       dealerFrom = doc as Dealer;
     });
@@ -212,6 +215,18 @@ export async function moveCreditsDealer(req: Request, res: Response) {
          dealerSchema.findOneAndUpdate({_id: to}, { credito: Number(dealerTo?.credito) + ammount }, function (err, doc) {
           if (doc == null) return res.status(404).json({ message: "invalid Account to" });
         });
+        const history = new historySchema({
+          from_id: from,
+          to_id: to,
+          from_name: dealerFrom?.ragioneSociale,
+          to_name: dealerTo?.ragioneSociale,
+          ammount: ammount.toString(),
+          type: 'credito',
+          by_id: req._id,
+          by_name: dealerBy?.ragioneSociale
+        });
+        history.save();
+        history.markModified("history");
         return res.status(202).json({ message: "Credito moved", ammount});
       }else return res.status(404).json({ message: "invalid from account ammount" });
     } else return res.status(404).json({ message: "invalid Account" });
@@ -222,7 +237,7 @@ export async function moveCreditsDealer(req: Request, res: Response) {
 }
 
 
-export async function moveSimsDealer(req: Request, res: Response) {
+export async function moveSimsDealer(req: Request | any, res: Response) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -231,7 +246,10 @@ export async function moveSimsDealer(req: Request, res: Response) {
     const { from, to, ammount } = req.body;
     var dealerFrom;
     var dealerTo;
-
+    var dealerBy;
+    await dealerSchema.findById(req._id).then((doc) => {
+      dealerBy = doc as Dealer;
+    });
     await dealerSchema.findById(from).then((doc) => {
       dealerFrom = doc as Dealer;
     });
@@ -247,7 +265,18 @@ export async function moveSimsDealer(req: Request, res: Response) {
          dealerSchema.findOneAndUpdate({_id: to}, { sim: Number(dealerTo?.sim) + ammount }, function (err, doc) {
           if (doc == null) return res.status(404).json({ message: "invalid Account to" });
         });
-        //const history = new historySchema({});
+        const history = new historySchema({
+          from_id: from,
+          to_id: to,
+          from_name: dealerFrom?.ragioneSociale,
+          to_name: dealerTo?.ragioneSociale,
+          ammount: ammount.toString(),
+          type: 'sim',
+          by_id: req._id,
+          by_name: dealerBy?.ragioneSociale
+        });
+        history.save();
+        history.markModified("history");
 
         return res.status(202).json({ message: "Sims moved", ammount});
       }else return res.status(404).json({ message: "invalid from account ammount" });
@@ -255,5 +284,16 @@ export async function moveSimsDealer(req: Request, res: Response) {
     
   } catch (error) {
     return res.status(505).json({ message: "invalid body" });
+  }
+}
+
+export function getHistoriesMovements( req: Request | any, res: Response ) {
+  try {
+    historySchema.find({by_id: req._id}, function (err, doc) {
+      if (err) return res.status(404).json({ message: "Histories not found" });
+      return res.status(202).json({ message: "Histories found", histories: doc });
+    });
+  } catch (error) {
+    return res.status(505).json({ message: "Invalid body or error", error});
   }
 }

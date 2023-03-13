@@ -1,4 +1,3 @@
-import { UserModel } from "./../models/user.model"
 import { model, Schema } from "mongoose"
 import { HistoryModel } from "../models/history";
 
@@ -20,14 +19,22 @@ const historySchema: Schema = new Schema(
         type: String,
         required: true,
     },
-    sim: {
-        type: String,
-        required: true,
+    ammount: {
+      type: String,
+      required: true
     },
-    credito: {
-        type: String,
-        required: true,
+    type: {
+      type: String,
+      required: true
     },
+    by_id: {
+      type: String,
+      required: true
+    },
+    by_name: {
+      type: String,
+      required: true
+    }
 
     
   },
