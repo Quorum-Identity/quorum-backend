@@ -207,23 +207,23 @@ export async function moveCreditsDealer(req: Request | any, res: Response) {
       dealerTo = doc as Dealer;
     });
     if(dealerFrom !== null){
-      if(Number(dealerFrom?.credito) >= ammount ){
-        dealerSchema.findOneAndUpdate({_id: from}, { credito: Number(dealerFrom?.credito) - ammount }, function (err, doc) {
+      if(Number(dealerFrom.credito) >= ammount ){
+        dealerSchema.findOneAndUpdate({_id: from}, { credito: Number(dealerFrom.credito) - ammount }, function (err, doc) {
           if (doc == null) return res.status(404).json({ message: "invalid from Account" });
         });
 
-         dealerSchema.findOneAndUpdate({_id: to}, { credito: Number(dealerTo?.credito) + ammount }, function (err, doc) {
+         dealerSchema.findOneAndUpdate({_id: to}, { credito: Number(dealerTo.credito) + ammount }, function (err, doc) {
           if (doc == null) return res.status(404).json({ message: "invalid Account to" });
         });
         const history = new historySchema({
           from_id: from,
           to_id: to,
-          from_name: dealerFrom?.ragioneSociale,
-          to_name: dealerTo?.ragioneSociale,
+          from_name: dealerFrom.ragioneSociale,
+          to_name: dealerTo.ragioneSociale,
           ammount: ammount.toString(),
           type: 'credito',
           by_id: req._id,
-          by_name: dealerBy?.ragioneSociale
+          by_name: dealerBy.ragioneSociale
         });
         history.save();
         history.markModified("history");
@@ -257,23 +257,23 @@ export async function moveSimsDealer(req: Request | any, res: Response) {
       dealerTo = doc as Dealer;
     });
     if(dealerFrom !== null){
-      if(Number(dealerFrom?.sim) >= ammount ){
-        dealerSchema.findOneAndUpdate({_id: from}, { sim: Number(dealerFrom?.sim) - ammount }, function (err, doc) {
+      if(Number(dealerFrom.sim) >= ammount ){
+        dealerSchema.findOneAndUpdate({_id: from}, { sim: Number(dealerFrom.sim) - ammount }, function (err, doc) {
           if (doc == null) return res.status(404).json({ message: "invalid from Account" });
         });
 
-         dealerSchema.findOneAndUpdate({_id: to}, { sim: Number(dealerTo?.sim) + ammount }, function (err, doc) {
+         dealerSchema.findOneAndUpdate({_id: to}, { sim: Number(dealerTo.sim) + ammount }, function (err, doc) {
           if (doc == null) return res.status(404).json({ message: "invalid Account to" });
         });
         const history = new historySchema({
           from_id: from,
           to_id: to,
-          from_name: dealerFrom?.ragioneSociale,
-          to_name: dealerTo?.ragioneSociale,
+          from_name: dealerFrom.ragioneSociale,
+          to_name: dealerTo.ragioneSociale,
           ammount: ammount.toString(),
           type: 'sim',
           by_id: req._id,
-          by_name: dealerBy?.ragioneSociale
+          by_name: dealerBy.ragioneSociale
         });
         history.save();
         history.markModified("history");
