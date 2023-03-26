@@ -6,6 +6,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { Dealer } from "../models/dealer";
 import historySchema from '../schema/history';
 
+const statictoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHV0ZW50ZSI6IjQ1IiwiaWRhcHBsaWNhemlvbmUiOiIyIiwiaWRjb250ZXN0byI6IjAiLCJub21lIjoiRU1PQklMRTI0IiwiY29nbm9tZSI6IkVNT0JJTEUyNCIsIm5iZiI6MTY3OTA1OTQ1NiwiZXhwIjoxNzEwNTk1NDU2LCJpYXQiOjE2NzkwNTk0NTZ9.wsdwUoTivWI3tyK5diDI63_IFXOQ5wEnlww_9DTDYLM';
 
 
 export function createDealer(req: Request | any, res: Response) {
@@ -141,7 +142,7 @@ export function getDealer( req: Request | any, res: Response ) {
     }
     dealerSchema.findOne({_id: req._id}, function (err, doc) {
       if (err) return res.status(404).json({ message: "Dealer don't found" });
-      return res.status(202).json({ message: "Dealer found", dealers: doc });
+      return res.status(202).json({ message: "Dealer found", dealers: doc , external_token: statictoken});
     });
   } catch (error) {
     return res.status(505).json({ message: "Invalid body or error" });
@@ -161,7 +162,7 @@ export function getDealer( req: Request | any, res: Response ) {
         const token = jwt.sign({ _id: account._id.toString() }, "SECRET_EXAMPLE_KEY", {
           expiresIn: '2 days',
         });
-        return res.status(202).json({message: "Account loggin", user: account, token});
+        return res.status(202).json({message: "Account loggin", user: account, token, external_token: statictoken});
       } else return res.status(404).json({message: "Invalid password"});
     } else return res.status(404).json({message: "Account not found"})
   } catch (error) {

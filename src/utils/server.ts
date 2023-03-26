@@ -5,7 +5,7 @@ import cors from "cors";
 
 const corsOptions ={
   
-  origin:'http://172.25.172.72:3000', 
+  origin:'http://45.67.221.237:3000', 
   credentials:true, 
   optionSuccessStatus:200,
   
