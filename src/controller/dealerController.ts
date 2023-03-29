@@ -61,7 +61,8 @@ getDealerByCodice);
 
 
 
-router.post("/updatedealer", authorization,
+router.post("/updatedealer",
+  body('id').isLength({min:  0}), 
   body('ragioneSociale').isLength({min:  0}), 
   body('tipoAzienda').isLength({min: 0}),
   body('email').isEmail(),
