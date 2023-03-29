@@ -59,8 +59,18 @@ router.post("/getbycodice",
   body('cFiscale').isLength({ min: 2 }), 
 getDealerByCodice);
 
+
+
 router.post("/updatedealer", authorization,
-  body("_id").isLength({min: 6}),
+  body('ragioneSociale').isLength({min:  0}), 
+  body('tipoAzienda').isLength({min: 0}),
+  body('email').isEmail(),
+  body('usurname').isLength({min: 0}), 
+  body('indirizzo').isLength({min: 0}),
+  body('comune').isLength({min: 0}),  
+  body('provincia').isLength({min: 0}),
+  body('cap').isLength({min: 0}),
+  body('pIva').isLength({min: 0}),
 updateDealer);
 
 export default router;

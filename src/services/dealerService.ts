@@ -171,16 +171,15 @@ export function getDealer( req: Request | any, res: Response ) {
 }
 
 
-export function updateDealer(req: Request, res: Response) {
+export function updateDealer(req: Request | any, res: Response) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { cFiscale } = req.body as Pick<Dealer, "cFiscale">;
-    dealerSchema.findOneAndUpdate({ cFiscale }, function (err, doc) {
-      if (err) return res.status(404).json({ message: "invalid Account" });
-      return res.status(202).json({ message: "invalid body or error" });
+    dealerSchema.findOneAndUpdate({_id: req._id}, { ...req.body! }, function (err, doc) {
+      if (err) return res.status(404).json({ message: "invalid Account"});
+      return res.status(202).json({ message: "Updated", user: doc});
     });
   } catch (error) {
     return res.status(505).json({ message: "invalid body" });
