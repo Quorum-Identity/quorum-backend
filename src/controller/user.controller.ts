@@ -1,27 +1,26 @@
 import express from "express";
-import {loginUser, registerUser, getUser, updateUser, updatePassword} from "../services/user.service";
-import { body } from 'express-validator';
+import {registerUser, getUser, updateUser, getUserById, getUserByCodice} from "../services/user.service";
 import { authorization } from "../middleware/user.midd";
+import { UserModel } from "../models/user.model";
+import { body } from "express-validator";
 
 var router = express.Router();
 
 router.post("/register",
-  body('name').isLength({ min: 3 }),
-  body('lastname').isLength({ min: 3 }), 
-  body('password').isLength({ min: 5 }),
-  body('email').isEmail(), 
-  body('date_birth').isLength({ min: 5 }),
-  body('phone').isLength({ min: 3}),  
-  body('type').isNumeric(), 
-  body('country').isNumeric(),
-  body('gender').isNumeric(), 
-  body('province').isNumeric(), 
-registerUser);
+  body('nome_completo').isLength({ min: 1}),
+  body('provincia_residenza').isLength({ min: 1 }), 
+  body('indirizzo_residenza').isLength({ min: 1 }),
+  body('comune_residenza').isLength({ min: 1 }), 
+  body('codice_fiscale').isLength({ min: 1 }),
+  body('telefono').isLength({ min: 1 }),  
+  body('cap_residenza').isLength({ min: 1 }), 
+  body('codice_sdi').isLength({ min: 1 }),
+  body('partita_iva').isLength({ min: 1 }), 
+  body('ragione_sociale').isLength({ min: 1 }),
+  body('pec_email').isLength({ min: 1 }), 
+  body('privato').isObject(), 
 
-router.post("/logins",
- body('email').isEmail(), 
-  body('password').isLength({ min: 5 }), 
-loginUser);
+registerUser);
 
 router.get("/data", authorization, getUser);
 router.post("/update", authorization,
@@ -32,8 +31,10 @@ router.post("/update", authorization,
 
   updateUser);
 
-router.post("/update/password", authorization,
-  body('password').isLength({ min: 3 }), 
-  body('oldpassword').isLength({ min: 3 }),
-  updatePassword);
+router.post("/getbyid", authorization,
+  body('id').isLength({ min: 3 }), 
+  getUserById);
+router.post("/getbycodice", authorization,
+  body('codice_fiscale').isLength({ min: 3 }), 
+  getUserByCodice);
 export default router;

@@ -19,7 +19,7 @@ app.use("/user", globalAuthorization, UserRouter);
 app.use("/private", PrivateRouter)
 app.use("/business", BusinesRouter)
 app.use("/society", SocietyRouter)
-app.use("/dealers", DealerRouter)
+app.use("/dealers", globalAuthorization, DealerRouter)
 app.listen(port, async () => {
   console.log(`App is running at http://localhost:${port}`);
 });
