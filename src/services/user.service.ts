@@ -12,16 +12,19 @@ async function registerUser (req: Request, res: Response) {
       return res.status(400).json({ errors: errors.array() });
     }
     
-    const body = req.body as Pick<UserModel, | "nome_completo" | "provincia_residenza" | "indirizzo_residenza" | "comune_residenza" | "telefono" | "codice_fiscale" | "cap_residenza" | "codice_sdi" | "partita_iva" | "ragione_sociale" | "pec_email" | "privato">
-    const addingUser = new UserSchema({
-      ...body
-    });
-    addingUser.markModified('users');
-    addingUser.save();
+    const body = req.body as Pick<UserModel, | "nome_completo" | "provincia_residenza" | "indirizzo_residenza" | "comune_residenza" | "telefono" | "codice_fiscale" | "cap_residenza" | "codice_sdi" | "partita_iva" | "ragione_sociale" | "pec_email" | "privato" | "iccid" | "email">
+    const account = await UserSchema.find({ codice_fiscale: body?.codice_fiscale});
+    if(account.length < 3){
+      const addingUser = new UserSchema({
+        ...body
+      });
+      addingUser.markModified('users');
+      addingUser.save();
 
-    if (addingUser){
-      return res.status(202).json({ message: "User registered", user: addingUser });
-    } else return res.status(204).json({ message: "User not registered"});
+      if (addingUser){
+        return res.status(202).json({ message: "User registered", user: addingUser });
+      } else return res.status(204).json({ message: "User not registered"});
+    }else return res.status(204).json({limit: true, message: "Max limit o sims, change one number"});
   } catch (error) {
     return res.status(505).json({message: "Invalid body or error"});
   }
@@ -96,7 +99,27 @@ async function updateUser (req: Request, res: Response ){
 }
 
 
+async function updateNumberSim (req: Request, res: Response ){
+  try{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+        
+    const body = req.body;
+    UserSchema.findOneAndUpdate({ _id: body.id }, {telefono: body.telefono, codice: body.codice}, {upsert: true}, function(err, doc) {
+      if (err) return res.status(404).json({message: "Invalid account"});
+      return res.status(202).json({message: "Account updated", user: doc});
+    });
+  }
+  catch (error) {
+    return res.status(505).json({message: "Invalid body or error"});
+  }
+    
+}
+
+
 
   
-export {registerUser, getUser, updateUser, getUserById, getUserByCodice};
+export {updateNumberSim, registerUser, getUser, updateUser, getUserById, getUserByCodice};
   

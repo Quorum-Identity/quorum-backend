@@ -53,6 +53,14 @@ const userSchema: Schema = new Schema(
             type: Object,
             required: true
         },
+        numero: {
+            type: String,
+            required: true
+        },
+        codice: {
+            type: String,
+            required: true
+        }
         
     },
     

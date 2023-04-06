@@ -9,15 +9,19 @@ export type DocumentDataModel = {
 }
 export interface UserModel extends Document {
   nome_completo: string,
-  provincia_residenza: String,
-  indirizzo_residenza: String,
-  comune_residenza: String,
-  codice_fiscale: String,
-  telefono: String,
-  cap_residenza: String,
-  partita_iva: String,
-  codice_sdi: String,
-  ragione_sociale: String,
-  pec_email: String,
-  privato: DocumentDataModel
+  provincia_residenza: string,
+  indirizzo_residenza: string,
+  comune_residenza: string,
+  codice_fiscale: string,
+  telefono: string,
+  cap_residenza: string,
+  partita_iva: string,
+  codice_sdi: string,
+  ragione_sociale: string,
+  pec_email: string,
+  iccid: string,
+  email: string,
+  privato: DocumentDataModel,
+  codice: string
+
 }
