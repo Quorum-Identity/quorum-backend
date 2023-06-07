@@ -5,7 +5,7 @@ import cors from "cors";
 
 const corsOptions ={
   
-  origin:'http://edesk24.it:3000', 
+  origin:'http://localhost:3000', 
   credentials:true, 
   optionSuccessStatus:200,
   
