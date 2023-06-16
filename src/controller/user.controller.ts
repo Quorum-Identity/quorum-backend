@@ -2,38 +2,18 @@ import express from "express";
 
 import { body } from 'express-validator';
 import { authorization } from "../middleware/dealer";
-import {resetPassword, getUserParents, createUser, getUser,  loginUser, updateUser } from "../services/user.service";
+import {resetPassword, getClients, createUser, getUser,  loginUser, updateUser, getMedicals } from "../services/user.service";
 
 var router = express.Router();
 
-router.post("/post",
-  body('tipologia').isLength({min: 1}),
-  body('ragioneSociale').isLength({min: 1}), 
-  body('tipoAzienda').isLength({min: 1}),
-  body('email').isEmail(),
-  body('usurname').isLength({min: 1}), 
-  body('indirizzo').isLength({min: 1}),
-  body('comune').isLength({min: 1}),  
-  body('provincia').isLength({min: 1}),
-  body('cap').isLength({min: 1}),
-  body('pIva').isLength({min: 1}),
-  body('cFiscale').isLength({min: 1}),
-  body('sdi').isNumeric(),
-  body('pec').isLength({min: 1}),
-  body('referente').isLength({min: 1}),
-  body('telefono').isLength({min: 1}),
-  body('emailRef').isLength({min: 1}),
-  body('ruole').isLength({min: 1}),
-  body('dominio').isLength({min: 1}),
-  body("credito").isNumeric(),
-  body("sim").isNumeric(),
-createUser);
+router.post("/create", createUser);
 
 router.get("/get", authorization,
    getUser);
-router.get("/getusers", authorization,
-getUserParents);
-
+router.post("/getclients", authorization,
+getClients);
+router.post("/getmedicals", authorization,
+getMedicals);
 router.post("/updatepassword", authorization,
 body("_id").isLength({min: 6}),
 resetPassword);

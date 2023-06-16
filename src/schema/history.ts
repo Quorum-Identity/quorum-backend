@@ -11,10 +11,6 @@ const historySchema: Schema = new Schema(
         type: String,
         required: true,
       },
-    from_name: {
-        type: String,
-        required: true,
-    },
     to_name: {
         type: String,
         required: true,
@@ -27,11 +23,11 @@ const historySchema: Schema = new Schema(
       type: String,
       required: true
     },
-    by_id: {
+    from_name: {
       type: String,
       required: true
     },
-    by_name: {
+    data: {
       type: String,
       required: true
     }
@@ -41,4 +37,4 @@ const historySchema: Schema = new Schema(
   { timestamps: true }
 )
 
-export default model<HistoryModel>("history", historySchema);
+export default model<HistoryModel>("histories", historySchema);

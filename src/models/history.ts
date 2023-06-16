@@ -4,7 +4,6 @@ export interface HistoryModel extends Document{
   from__name: String,
   to_name: String,
   ammount: String | Number,
-  type: String,
-  by_id: String,
-  by_name: String
+  data: String,
+  type: String
 }

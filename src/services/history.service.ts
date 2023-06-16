@@ -1,55 +1,44 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import dealerSchema from "../schema/user";
-import bcrypt from 'bcrypt';
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { User } from "../models/user";
+
 import historySchema from '../schema/history';
 
-const statictoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHV0ZW50ZSI6IjQ1IiwiaWRhcHBsaWNhemlvbmUiOiIyIiwiaWRjb250ZXN0byI6IjAiLCJub21lIjoiRU1PQklMRTI0IiwiY29nbm9tZSI6IkVNT0JJTEUyNCIsIm5iZiI6MTY3OTA1OTQ1NiwiZXhwIjoxNzEwNTk1NDU2LCJpYXQiOjE2NzkwNTk0NTZ9.wsdwUoTivWI3tyK5diDI63_IFXOQ5wEnlww_9DTDYLM';
-
-
-export function createUser(req: Request | any, res: Response) {
+export function createHistory(req: Request | any, res: Response) {
   try {  
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const c = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let randPassword = [...Array(8)].map(_ => c[~~(Math.random()*c.length)]).join('');
-    let encryptedrandPassword = bcrypt.hashSync(randPassword.toString(), 10);
     
     const body = req.body;
-    const addingDealer = new dealerSchema({
-      password:  encryptedrandPassword,
-      ...body
-    });
-    addingDealer.markModified("users");
-    addingDealer.save()
-    if (addingDealer) {
+    const addingHistory = new historySchema(body);
+    addingHistory.markModified("histories");
+    addingHistory.save()
+    console.log(addingHistory);
+    if (addingHistory) {
       return res
         .status(202)
-        .json({ message: "User registered", user: addingDealer, password: randPassword });
-    } else return res.status(204).json({ message: "User not registered" });
+        .json({ message: "History registered", history: addingHistory });
+    } else return res.status(204).json({ message: "History not registered" });
   } catch (errors) {
     return res.status(505).json({ message: "Invalid body or error" });
   }
 }
 
-export function getClients(req: Request | any, res: Response) {
+export function getHistories(req: Request | any, res: Response) {
   try {
     const body = req.body;
-    
-    dealerSchema.find({type: 0, from_id: body.id }, function (err, doc) {
+  
+    historySchema.find({from_id: body.id }, function (err, doc) {
       if (err) return res.status(404).json({ message: "Clients don't found" });
       
-      return res.status(202).json({ message: "Clients found", clients: doc });
+      return res.status(202).json({ message: "Clients found", history: doc });
     });
   } catch (error) {
     return res.status(505).json({ message: "Invalid body or error" });
   }
 }
-export function getMedicals(req: Request | any, res: Response) {
+/*export function getMedicals(req: Request | any, res: Response) {
   try {
     const body = req.body;
     
@@ -133,6 +122,6 @@ export function updateUser(req: Request | any, res: Response) {
   } catch (error) {
     return res.status(505).json({ message: "invalid body" });
   }
-}
+}*/
 
 
