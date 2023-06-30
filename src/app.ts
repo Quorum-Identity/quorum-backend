@@ -8,7 +8,7 @@ import TreatmentRouter from './controller/treatment.controller';
 
 const port = 3001;
 export const app = createServer();
-mongoose.connect('mongodb://canitrotbartolome:juInQ2XWJkOIWiqa@ac-29lwldj-shard-00-00.x5zoaac.mongodb.net:27017,ac-29lwldj-shard-00-01.x5zoaac.mongodb.net:27017,ac-29lwldj-shard-00-02.x5zoaac.mongodb.net:27017/valeriani?ssl=true&replicaSet=atlas-tbn2ge-shard-0&authSource=admin&retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://canitrotbartolome:juInQ2XWJkOIWiqa@cluster0.x5zoaac.mongodb.net/valeriani?retryWrites=true&w=majority',
   err => {
       if(err) throw err;
       console.log('connected to MongoDB');
