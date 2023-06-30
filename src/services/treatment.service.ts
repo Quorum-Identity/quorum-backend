@@ -37,12 +37,15 @@ export async function getTreatments(req: Request | any, res: Response) {
         responseTo = doc;
       }).clone();
     var calendars;
+    console.log(responseFrom);
     if(responseFrom !== undefined){
         calendars = [...responseFrom];
     }
     if(responseTo !== undefined){
         calendars = [...calendars, ...responseTo];
     }
+    console.log(calendars);
+
     var treatmentsUnique;
     if(calendars?.lenght > 0){
          treatmentsUnique = calendars.filter(
@@ -51,7 +54,9 @@ export async function getTreatments(req: Request | any, res: Response) {
         );
     }
       
-    return res.status(202).json({ message: "Treatments found", treatments: treatmentsUnique });
+    return res.status(202).json({ message: "Treatments found", treatments: calendars.filter((item, index, array) =>
+    index === array.findIndex(foundItem => item._id === foundItem._id)
+  )});
   } catch (error) {
     console.log(error);
     return res.status(505).json({ message: "Invalid body or error" });
