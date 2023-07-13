@@ -113,7 +113,7 @@ export function getUser( req: Request | any, res: Response ) {
         });
         return res.status(202).json({message: "Account loggin", user: account, token, external_token: statictoken});
       } else return res.status(404).json({message: "Invalid password"});
-    } else return res.status(404).json({message: "Account not found"})
+    } else return res.status(404).json({message: "Account not found", account})
   } catch (error) {
     return res.status(505).json({message: "Invalid body or error"});
   }

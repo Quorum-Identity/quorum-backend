@@ -5,6 +5,7 @@ import UserRouter from './controller/user.controller';
 import HistoryRouter from './controller/history.controller';
 import CalendarRouter from "./controller/calendar.controller";
 import TreatmentRouter from './controller/treatment.controller';
+import BillingRoute from "./controller/billing.controller";
 
 const port = 3001;
 export const app = createServer();
@@ -13,6 +14,7 @@ mongoose.connect('mongodb://canitrotbartolome:juInQ2XWJkOIWiqa@ac-29lwldj-shard-
       if(err) throw err;
       console.log('connected to MongoDB');
 });
+app.use("/billing", globalAuthorization, BillingRoute);
 app.use("/treatment", globalAuthorization, TreatmentRouter);
 app.use("/calendar", globalAuthorization, CalendarRouter);
 app.use("/user", globalAuthorization, UserRouter);
