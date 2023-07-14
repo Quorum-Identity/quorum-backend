@@ -28,17 +28,6 @@ loginUser);
 
 
 
-router.post("/updatedealer",
-  body('id').isLength({min:  0}), 
-  body('ragioneSociale').isLength({min:  0}), 
-  body('tipoAzienda').isLength({min: 0}),
-  body('email').isEmail(),
-  body('usurname').isLength({min: 0}), 
-  body('indirizzo').isLength({min: 0}),
-  body('comune').isLength({min: 0}),  
-  body('provincia').isLength({min: 0}),
-  body('cap').isLength({min: 0}),
-  body('pIva').isLength({min: 0}),
-updateUser);
+router.post("/update", authorization, updateUser);
 
 export default router;

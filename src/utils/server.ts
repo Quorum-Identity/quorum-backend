@@ -5,7 +5,7 @@ import cors from "cors";
 
 const corsOptions ={
   
-  origin:'http://localhost:3000', 
+  origin:'http:///173.249.39.113:3000', 
   credentials:true, 
   optionSuccessStatus:200,
   

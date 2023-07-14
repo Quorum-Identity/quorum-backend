@@ -6,6 +6,7 @@ import HistoryRouter from './controller/history.controller';
 import CalendarRouter from "./controller/calendar.controller";
 import TreatmentRouter from './controller/treatment.controller';
 import BillingRoute from "./controller/billing.controller";
+import SpesseRouter from "./controller/spesse.controller";
 
 const port = 3001;
 export const app = createServer();
@@ -19,6 +20,7 @@ app.use("/treatment", globalAuthorization, TreatmentRouter);
 app.use("/calendar", globalAuthorization, CalendarRouter);
 app.use("/user", globalAuthorization, UserRouter);
 app.use("/history", globalAuthorization, HistoryRouter);
+app.use("/spesse", globalAuthorization, SpesseRouter);
 
 app.listen(port, async () => {
   console.log(`App is running at http://localhost:${port}`);
