@@ -5,5 +5,6 @@ export interface CalendarModel extends Document{
     start: string,
     end: string,
     from_name: string,
-    to_name: string
+    to_name: string,
+    createdAt: Date
 }

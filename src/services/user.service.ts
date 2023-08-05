@@ -4,7 +4,7 @@ import dealerSchema from "../schema/user";
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { User } from "../models/user";
-import historySchema from '../schema/history';
+import calendarSchema from '../schema/calendar';
 
 const statictoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHV0ZW50ZSI6IjQ1IiwiaWRhcHBsaWNhemlvbmUiOiIyIiwiaWRjb250ZXN0byI6IjAiLCJub21lIjoiRU1PQklMRTI0IiwiY29nbm9tZSI6IkVNT0JJTEUyNCIsIm5iZiI6MTY3OTA1OTQ1NiwiZXhwIjoxNzEwNTk1NDU2LCJpYXQiOjE2NzkwNTk0NTZ9.wsdwUoTivWI3tyK5diDI63_IFXOQ5wEnlww_9DTDYLM';
 
@@ -83,17 +83,45 @@ export function resetPassword(req: Request | any, res: Response) {
   }
 }
 
-export function getUser( req: Request | any, res: Response ) {
+export async function getUser( req: Request | any, res: Response ) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    dealerSchema.findOne({_id: req._id}, function (err, doc) {
-      if (err) return res.status(404).json({ message: "Dealer don't found" });
-      return res.status(202).json({ message: "Dealer found", user: doc , external_token: statictoken});
-    });
+    console.log('1');
+    var responseUser = await dealerSchema.findOne({_id: req._id}, function (err, doc) {
+      return doc;
+    }).clone();
+    console.log('2');
+    var calendars: any[];
+
+    calendarSchema.findOne({from_id: req._id}, function (err, doc) {
+      calendars = doc;
+    }).limit(1).clone();
+    console.log('3');
+
+    calendarSchema.findOne({to_id: req._id}, function (err, doc) {
+      calendars += doc;
+    }).limit(1).clone();
+    
+    var calendar;
+    if(calendars! !== undefined){
+      if(calendars!.length > 0){
+        if(calendars!.length === 1){
+          calendar = calendars![0];
+        }else {
+          console.log(calendars![0]);
+          if(calendars![0]!.createdAt.getTime > calendars![1]!.createdAt.getTime){
+            calendar = calendars![1];
+          } else calendar = calendars![0];
+        }
+      }
+    }
+
+    return res.status(202).json({ message: "User found", user: responseUser , calendar});
   } catch (error) {
+    console.log(error);
     return res.status(505).json({ message: "Invalid body or error" });
   }
 }
