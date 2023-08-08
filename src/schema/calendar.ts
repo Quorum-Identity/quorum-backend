@@ -30,8 +30,15 @@ const calendarSchema: Schema = new Schema(
       to_name: {
         type: String,
         required: true
+      },
+      to_medical: {
+        type: String,
+        required: true
+      },
+      to_medicalname: {
+        type: String,
+        required: true
       }
-
     
   },
   { timestamps: true }

@@ -2,7 +2,7 @@ import express from "express";
 
 import { body } from 'express-validator';
 import { authorization } from "../middleware/dealer";
-import {resetPassword, getClients, createUser, getUser,  loginUser, updateUser, getMedicals } from "../services/user.service";
+import {resetPassword, getClients, createUser, getUser,  loginUser, updateUser, getMedicals, getUserById } from "../services/user.service";
 
 var router = express.Router();
 
@@ -17,7 +17,8 @@ getMedicals);
 router.post("/updatepassword", authorization,
 body("_id").isLength({min: 6}),
 resetPassword);
-
+router.post("/getuserid", authorization,
+getUserById);
 
 router.post("/login",
   body('password').isLength({ min: 5 }), 

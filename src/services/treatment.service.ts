@@ -37,14 +37,12 @@ export async function getTreatments(req: Request | any, res: Response) {
         responseTo = doc;
       }).clone();
     var calendars;
-    console.log(responseFrom);
     if(responseFrom !== undefined){
         calendars = [...responseFrom];
     }
     if(responseTo !== undefined){
         calendars = [...calendars, ...responseTo];
     }
-    console.log(calendars);
 
     var treatmentsUnique;
     if(calendars?.lenght > 0){
@@ -58,7 +56,6 @@ export async function getTreatments(req: Request | any, res: Response) {
     index === array.findIndex(foundItem => item._id === foundItem._id)
   )});
   } catch (error) {
-    console.log(error);
     return res.status(505).json({ message: "Invalid body or error" });
   }
 }

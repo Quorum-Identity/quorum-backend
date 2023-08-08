@@ -14,7 +14,6 @@ export function createSpesse(req: Request | any, res: Response) {
     const addingSpesse = new spesseSchema(body);
     addingSpesse.markModified("spesse");
     addingSpesse.save()
-    console.log(addingSpesse);
     if (addingSpesse) {
       return res
         .status(202)
@@ -47,7 +46,6 @@ export async function getSpesse(req: Request | any, res: Response) {
     return res.status(202).json({ message: "Spesse found", spesse: calendars.filter((item, index, array) =>
     index === array.findIndex(foundItem => (item._id === foundItem._id || item.to_id === foundItem.to_id)))});
   } catch (error) {
-    console.log(error);
     return res.status(505).json({ message: "Invalid body or error" });
   }
 }

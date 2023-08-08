@@ -45,7 +45,6 @@ export async function getBilling(req: Request | any, res: Response) {
     }
     return res.status(202).json({ message: "Billings found", from: responseFrom, to: responseTo });
   } catch (error) {
-    console.log(error);
     return res.status(505).json({ message: "Invalid body or error" });
   }
 }

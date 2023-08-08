@@ -41,11 +41,10 @@ export async function getCalendars(req: Request | any, res: Response) {
         calendars = [...responseFrom];
     }
     if(responseTo !== undefined){
-        calendars = [...calendars, ...responseTo];
+        calendars?.push(responseFrom!);
     }
     return res.status(202).json({ message: "Clients found", from: responseFrom, to: responseTo });
   } catch (error) {
-    console.log(error);
     return res.status(505).json({ message: "Invalid body or error" });
   }
 }
