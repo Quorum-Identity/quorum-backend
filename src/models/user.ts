@@ -14,5 +14,9 @@ export interface User extends Document{
     city: string,
     prov: string,
     cap: string,
-    special: string
+    special: string,
+    note: string,
+    prima: string,
+    intervento: string,
+    post: string
 }

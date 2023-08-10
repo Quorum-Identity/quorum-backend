@@ -32,17 +32,17 @@ export async function getCalendars(req: Request | any, res: Response) {
     await calendarSchema.find({from_id: body.id }, function (err, doc) { 
       responseFrom = doc;
     }).clone();
+
     var responseTo: any = undefined;
     await calendarSchema.find({to_id: body.id }, function (err, doc) {
         responseTo = doc;
       }).clone();
-    var calendars;
-    if(responseFrom !== undefined){
-        calendars = [...responseFrom];
-    }
-    if(responseTo !== undefined){
-        calendars?.push(responseFrom!);
-    }
+
+    await calendarSchema.find({to_medical: body.id }, function (err, doc) {
+        responseTo = [...responseTo, ...doc];
+    }).clone();
+
+   
     return res.status(202).json({ message: "Clients found", from: responseFrom, to: responseTo });
   } catch (error) {
     return res.status(505).json({ message: "Invalid body or error" });

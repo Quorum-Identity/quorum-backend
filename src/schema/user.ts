@@ -62,7 +62,22 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
-  
+  note: {
+    type: String,
+    require: true,
+  },
+  prima: {
+    type: String,
+    require: true,
+  },
+  intervento: {
+    type: String,
+    require: true,
+  },
+  post: {
+    type: String,
+    require: true,
+  },
 },
   { timestamps: true }
 );
