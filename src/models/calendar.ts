@@ -8,5 +8,6 @@ export interface CalendarModel extends Document{
     to_name: string,
     createdAt: Date,
     to_medical: string,
-    to_medicalname: string
+    to_medicalname: string,
+    evidenzia: string
 }
