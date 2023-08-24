@@ -1,22 +1,13 @@
 export interface User extends Document{
     _id: string,
-    from_id: string,
-    email: string;
-    password: string;
-    name: string;
+    email: string,
+    password: string,
+    name: string,
     lastname: string,
+    votations: any,
+    company: string,
     type: number,
     birth: string,
     placebirth: string,
-    telefono: string,
-    cellulare: string,
-    direction: string,
-    city: string,
-    prov: string,
-    cap: string,
-    special: string,
-    note: string,
-    prima: string,
-    intervento: string,
-    post: string
+    identification_number: string
 }

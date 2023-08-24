@@ -6,9 +6,7 @@ import { User } from "../models/user";
 
 
 const userSchema = new Schema({
-  from_id: {
-    type: String,
-  },
+  
   password:{
     type: String,
     require: true,
@@ -38,46 +36,18 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
-  cap: {
+  company: {
     type: String,
-    require: true,
+    require: true
   },
-  telefono: {
+  identification_number: {
     type: String,
-    require: true,
+    require: true
   },
-  cellulare: {
-    type: String,
-    require: true,
-  },
-  direction: {
-    type: String,
-    require: true,
-  },
-  city: {
-    type: String,
-    require: true,
-  },
-  prov: {
-    type: String,
-    require: true,
-  },
-  note: {
-    type: String,
-    require: true,
-  },
-  prima: {
-    type: String,
-    require: true,
-  },
-  intervento: {
-    type: String,
-    require: true,
-  },
-  post: {
-    type: String,
-    require: true,
-  },
+  votations: {
+    type: Array<Object>,
+    require: true
+  }
 },
   { timestamps: true }
 );
